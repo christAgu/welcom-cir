@@ -1,26 +1,1585 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Livento design tokens ─────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --livento-bg: #f3f6fb;
+  --livento-bg-subtle: #eef2f8;
+  --livento-card: rgba(255, 255, 255, 0.92);
+  --livento-card-solid: #ffffff;
+  --livento-primary: #0057d8;
+  --livento-primary-hover: #0046b0;
+  --livento-primary-glow: rgba(0, 87, 216, 0.22);
+  --livento-text: #0b1220;
+  --livento-text-muted: #64748b;
+  --livento-border: rgba(203, 213, 225, 0.55);
+  --livento-success: #059669;
+  --livento-success-bg: rgba(16, 185, 129, 0.1);
+  --livento-danger: #dc2626;
+  --livento-danger-bg: rgba(239, 68, 68, 0.08);
+  --livento-radius-card: 1.25rem;
+  --livento-radius-pill: 9999px;
+  --livento-shadow-card:
+    0 0 0 1px rgba(255, 255, 255, 0.85) inset,
+    0 1px 2px rgba(12, 18, 34, 0.04),
+    0 12px 32px rgba(12, 18, 34, 0.06);
+  --livento-shadow-card-hover:
+    0 0 0 1px rgba(255, 255, 255, 0.95) inset,
+    0 8px 24px rgba(12, 18, 34, 0.08),
+    0 20px 48px rgba(12, 18, 34, 0.1);
+  --livento-shadow-btn: 0 4px 14px rgba(0, 87, 216, 0.28);
+
+  /* shadcn theme — aligné Livento */
+  --background: var(--livento-bg);
+  --foreground: var(--livento-text);
+  --card: var(--livento-card);
+  --card-foreground: var(--livento-text);
+  --popover: var(--livento-card);
+  --popover-foreground: var(--livento-text);
+  --primary: var(--livento-primary);
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #334155;
+  --muted: #f1f5f9;
+  --muted-foreground: var(--livento-text-muted);
+  --accent: #f1f5f9;
+  --accent-foreground: #334155;
+  --destructive: var(--livento-danger);
+  --border: var(--livento-border);
+  --input: #e2e8f0;
+  --ring: var(--livento-primary);
+  --chart-1: #0061d5;
+  --chart-2: #60a5fa;
+  --chart-3: #f59e0b;
+  --chart-4: #6366f1;
+  --chart-5: #10b981;
+  --radius: 0.875rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #475569;
+  --sidebar-primary: var(--livento-primary);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #334155;
+  --sidebar-border: var(--livento-border);
+  --sidebar-ring: var(--livento-primary);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  html {
+    @apply font-sans scroll-smooth;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* ─── Layout & fond de page ─────────────────────────────────────────── */
+  .livento-canvas,
+  .dashboard-canvas {
+    background-color: var(--livento-bg);
+    background-image:
+      radial-gradient(
+        ellipse 90% 60% at 0% -5%,
+        rgba(0, 87, 216, 0.07),
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse 70% 50% at 100% 0%,
+        rgba(99, 102, 241, 0.05),
+        transparent 45%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.4) 0%,
+        transparent 40%
+      );
+  }
+
+  .livento-ambient {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    opacity: 0.85;
+  }
+
+  .livento-ambient::before,
+  .livento-ambient::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+  }
+
+  .livento-ambient::before {
+    width: 32rem;
+    height: 32rem;
+    top: -10rem;
+    right: 5%;
+    background: rgba(0, 87, 216, 0.08);
+  }
+
+  .livento-ambient::after {
+    width: 26rem;
+    height: 26rem;
+    bottom: 0;
+    left: -6rem;
+    background: rgba(99, 102, 241, 0.06);
+  }
+
+  .livento-ambient {
+    background: none;
+  }
+
+  .livento-page-content {
+    @apply flex flex-1 flex-col gap-5 p-4 lg:gap-6 lg:p-8;
+  }
+
+  .livento-bento-grid {
+    @apply grid items-start gap-6;
+  }
+
+  /* ─── Cartes bento (Livento) ──────────────────────────────────────────── */
+  .bento-card,
+  .surface-card,
+  .stat-box {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(226, 232, 240, 0.65);
+    background: var(--livento-card);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--livento-shadow-card);
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .bento-card {
+    @apply p-6 lg:p-7;
+  }
+
+  .bento-card-hover:hover,
+  .stat-box-hover:hover {
+    box-shadow: var(--livento-shadow-card-hover);
+    @apply -translate-y-0.5;
+    border-color: rgba(203, 213, 225, 0.85);
+  }
+
+  .stat-box {
+    @apply flex h-full min-h-[148px] flex-col gap-3.5 p-5 lg:p-6;
+  }
+
+  .stat-box-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .stat-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 1.25rem 1.25rem 0 0;
+    opacity: 1;
+  }
+
+  .stat-accent-amber::before {
+    background: #f59e0b;
+  }
+  .stat-accent-indigo::before {
+    background: #6366f1;
+  }
+  .stat-accent-blue::before {
+    background: #2563eb;
+  }
+  .stat-accent-emerald::before {
+    background: #10b981;
+  }
+  .stat-accent-violet::before {
+    background: #8b5cf6;
+  }
+  .stat-accent-rose::before {
+    background: #f43f5e;
+  }
+
+  /* ─── En-têtes de page ──────────────────────────────────────────────── */
+  .livento-header {
+    @apply sticky top-0 z-10 px-6 py-5 lg:px-8;
+    background-color: color-mix(in srgb, var(--livento-bg) 85%, transparent);
+    @apply backdrop-blur-xl;
+  }
+
+  .livento-badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.12em];
+    background: rgba(37, 99, 235, 0.08);
+    color: #2563eb;
+    border: 1px solid rgba(37, 99, 235, 0.12);
+  }
+
+  .livento-title,
+  .dash-hero-title {
+    @apply text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl;
+    letter-spacing: -0.03em;
+  }
+
+  .livento-subtitle {
+    @apply mt-2 max-w-2xl text-sm leading-relaxed text-slate-500;
+  }
+
+  .dash-hero-desc {
+    @apply mt-2 max-w-2xl text-sm leading-relaxed text-slate-500;
+  }
+
+  .dash-hero,
+  .livento-dashboard-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(226, 232, 240, 0.65);
+    background: var(--livento-card);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--livento-shadow-card);
+    @apply p-6 transition-all duration-300 ease-out lg:p-8;
+  }
+
+  .dash-hero::before,
+  .livento-dashboard-hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 1.25rem 1.25rem 0 0;
+    background: linear-gradient(90deg, #0057d8, #3b82f6);
+    opacity: 1;
+  }
+
+  .dash-hero::after,
+  .livento-dashboard-hero::after {
+    content: "";
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 18rem;
+    height: 18rem;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(0, 87, 216, 0.06) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .dash-hero-glow {
+    display: none;
+  }
+
+  .dash-kicker {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-blue-100/80 bg-blue-50/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-blue-700;
+  }
+
+  .dash-alert-success {
+    @apply flex items-center gap-3 rounded-2xl border border-green-200/70 bg-[#DCFCE7]/90 px-4 py-3 text-sm font-semibold text-green-800 shadow-sm backdrop-blur-sm;
+  }
+
+  .dash-alert-success-dot {
+    @apply size-2 shrink-0 rounded-full bg-green-500;
+  }
+
+  .dash-btn-primary,
+  .livento-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 10px;
+    border: none;
+    background-color: #0057d8;
+    background-image: none;
+    padding-inline: 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #ffffff;
+    box-shadow: var(--livento-shadow-btn);
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+    text-decoration: none;
+  }
+
+  .dash-btn-primary:hover,
+  .livento-btn-primary:hover {
+    background-color: #0046b0;
+    background-image: none;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 87, 216, 0.32);
+  }
+
+  .dash-btn-primary:active,
+  .livento-btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .dash-btn-primary-compact {
+    padding-inline: 0.625rem;
+    gap: 0.25rem;
+  }
+
+  .dash-btn-primary.dash-btn-icon {
+    box-sizing: border-box;
+    width: 2rem !important;
+    height: 2rem !important;
+    min-width: 2rem !important;
+    min-height: 2rem !important;
+    max-width: 2rem !important;
+    max-height: 2rem !important;
+    padding: 0 !important;
+    padding-inline: 0 !important;
+    gap: 0 !important;
+    line-height: 0;
+    flex-shrink: 0;
+  }
+
+  .dash-btn-primary.dash-btn-icon svg {
+    display: block;
+    color: #ffffff;
+    stroke: #ffffff;
+  }
+
+  .dash-btn-secondary,
+  .livento-btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-[10px] border border-slate-200/80 bg-white px-5 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:-translate-y-px hover:border-slate-300 hover:bg-white hover:text-slate-900 hover:shadow-md;
+  }
+
+  .dash-table-card {
+    @apply overflow-hidden rounded-xl p-0;
+    box-shadow: var(--livento-shadow-card);
+    border: 1px solid rgba(226, 232, 240, 0.65);
+  }
+
+  .dash-table-card thead tr {
+    @apply border-b border-slate-100 bg-slate-50/90;
+  }
+
+  .dash-table-card th {
+    @apply px-5 py-3.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400;
+  }
+
+  .dash-table-card td {
+    @apply px-5 py-4 text-sm text-slate-700;
+  }
+
+  .dash-table-card tbody tr {
+    @apply border-b border-slate-100/80 transition-colors last:border-b-0 hover:bg-blue-50/30;
+  }
+
+  .dash-section-head {
+    @apply mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between;
+  }
+
+  @media print {
+    .livento-topnav,
+    .print-hide {
+      display: none !important;
+    }
+
+    body.report-print-mode {
+      background: #fff !important;
+    }
+
+    body.report-print-mode main {
+      padding: 0 !important;
+    }
+
+    body.report-print-mode img {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+
+  .livento-section-title {
+    @apply flex items-center gap-2.5 text-[15px] font-bold tracking-tight text-slate-900;
+    letter-spacing: -0.02em;
+  }
+
+  .livento-section-title::before {
+    content: "";
+    display: block;
+    width: 3px;
+    height: 1rem;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, #0057d8, #3b82f6);
+  }
+
+  .livento-section-desc {
+    @apply mt-1.5 pl-[1.125rem] text-sm text-slate-500;
+  }
+
+  /* ─── Hero dashboard ────────────────────────────────────────────────── */
+  .livento-dashboard-hero .dash-hero-glow {
+    display: none;
+  }
+
+  .livento-hero-greeting {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-blue-100/70 bg-blue-50/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-blue-700;
+  }
+
+  .livento-hero-title {
+    @apply mt-3 text-2xl font-extrabold tracking-tight text-slate-950 sm:text-[1.75rem];
+    letter-spacing: -0.035em;
+  }
+
+  .livento-hero-sub {
+    @apply mt-1.5 text-sm leading-relaxed text-slate-500;
+  }
+
+  .livento-hero-date {
+    @apply inline-flex items-center gap-2 rounded-xl border border-slate-200/70 bg-white/90 px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur-sm;
+  }
+
+  .livento-hero-date svg {
+    color: #2563eb;
+  }
+
+  /* ─── Barre de navigation supérieure (Livento) ──────────────────────── */
+  .livento-topnav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    height: 3.625rem;
+    width: min(calc(100% - 1.5rem), 72rem);
+    max-width: 72rem;
+    margin: 0.875rem auto 0;
+    padding-inline: 1rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(226, 232, 240, 0.75);
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    box-shadow:
+      0 4px 24px rgba(15, 23, 42, 0.06),
+      0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+  }
+
+  @media (min-width: 1280px) {
+    .livento-topnav {
+      width: min(calc(100% - 4rem), 72rem);
+      padding-inline: 1.25rem;
+      gap: 1rem;
+    }
+  }
+
+  .livento-topnav-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    flex-shrink: 0;
+    color: var(--livento-primary);
+  }
+
+  .livento-topnav-brand:hover {
+    opacity: 0.92;
+  }
+
+  .livento-topnav-logo {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .livento-topnav-brand-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: #0f172a;
+    white-space: nowrap;
+  }
+
+  .livento-topnav-nav {
+    display: none;
+    flex: 1 1 auto;
+    justify-content: center;
+    align-items: center;
+    gap: 0.125rem;
+    min-width: 0;
+    max-width: 36rem;
+    margin-inline: auto;
+    padding: 0.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    background: rgba(241, 245, 249, 0.85);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .livento-topnav-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .livento-topnav-nav {
+      display: inline-flex;
+    }
+  }
+
+  .livento-topnav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    padding: 0.4375rem 0.875rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.25;
+    white-space: nowrap;
+    text-decoration: none;
+    color: #64748b;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  @media (min-width: 1024px) {
+    .livento-topnav-link {
+      padding: 0.4375rem 1rem;
+    }
+  }
+
+  .livento-topnav-link:hover:not(.livento-topnav-link-active) {
+    color: #0f172a;
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  .livento-topnav-link-active {
+    background: #ffffff;
+    color: var(--livento-primary);
+    font-weight: 600;
+    box-shadow:
+      0 1px 2px rgba(15, 23, 42, 0.05),
+      0 0 0 1px rgba(15, 23, 42, 0.04);
+  }
+
+  .livento-topnav-link-active:hover {
+    background: #ffffff;
+    color: var(--livento-primary-hover);
+  }
+
+  .livento-topnav-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .livento-topnav-actions-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.125rem;
+  }
+
+  .livento-action-btn {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      opacity 0.15s ease;
+  }
+
+  .livento-action-btn-primary {
+    width: 2.375rem;
+    height: 2.375rem;
+    border-radius: 10px;
+    background: var(--livento-primary);
+    color: #ffffff;
+    box-shadow: var(--livento-shadow-btn);
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .livento-action-btn-primary:hover {
+    background-color: var(--livento-primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .livento-action-btn-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background-color: transparent;
+    color: #1e293b;
+  }
+
+  .livento-action-btn-icon:hover {
+    background-color: #f5f7fa;
+  }
+
+  .livento-action-btn-notif {
+    position: relative;
+  }
+
+  .livento-notif-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 15px;
+    height: 15px;
+    padding-inline: 3px;
+    border-radius: 9999px;
+    background-color: #e11d48;
+    font-size: 9px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .livento-user-menu {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin-left: 0.25rem;
+    padding: 0.1875rem 0.375rem 0.1875rem 0.1875rem;
+    border: none;
+    border-radius: 9999px;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+
+  .livento-user-menu:hover {
+    background-color: #f5f7fa;
+  }
+
+  .livento-user-avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+  }
+
+  .livento-user-avatar-fallback {
+    background: var(--livento-primary);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .livento-user-info {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.125rem;
+    text-align: left;
+  }
+
+  @media (min-width: 900px) {
+    .livento-user-info {
+      display: flex;
+    }
+  }
+
+  .livento-user-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.1;
+    color: #0f172a;
+  }
+
+  .livento-user-role {
+    font-size: 0.75rem;
+    line-height: 1.1;
+    color: #94a3b8;
+  }
+
+  .livento-user-chevron {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    color: #94a3b8;
+  }
+
+  .livento-topnav-menu-btn {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .livento-topnav {
+      width: calc(100% - 1.5rem);
+      max-width: none;
+      padding-inline: 1rem;
+    }
+
+    .livento-topnav-nav {
+      display: none;
+    }
+
+    .livento-topnav-actions-group,
+    .livento-user-menu {
+      display: none;
+    }
+
+    .livento-topnav-menu-btn {
+      display: inline-flex;
+    }
+  }
+
+  .livento-page-header {
+    @apply px-4 py-0 lg:px-8;
+  }
+
+  /* ─── Calendrier cultes (modern) ────────────────────────────────────── */
+  .culte-calendar-card {
+    padding: 1.375rem !important;
+  }
+
+  @media (min-width: 1024px) {
+    .culte-calendar-card {
+      padding: 1.625rem !important;
+    }
+  }
+
+  .culte-calendar-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .culte-calendar-legend-inline {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .culte-legend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 9999px;
+    padding: 0.3125rem 0.625rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .culte-legend-pill-dim {
+    background-color: #fffbeb;
+    color: #b45309;
+  }
+
+  .culte-legend-pill-mer {
+    background-color: #eef2ff;
+    color: #4338ca;
+  }
+
+  .culte-calendar-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  @media (min-width: 768px) {
+    .culte-calendar-layout {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .culte-calendar-layout {
+      display: grid;
+      grid-template-columns: 20rem 22rem minmax(0, 1fr);
+      align-items: start;
+      gap: 1.5rem;
+    }
+  }
+
+  .livento-calendar {
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .livento-calendar {
+      width: min(100%, 20rem);
+      flex: 0 0 auto;
+    }
+  }
+
+  .livento-calendar-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.875rem;
+  }
+
+  .livento-calendar-month {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+  }
+
+  .livento-calendar-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+    border-radius: 9999px;
+    background-color: #f8fafc;
+    padding: 0.125rem;
+  }
+
+  .livento-calendar-nav-btn {
+    border-radius: 9999px;
+    color: #64748b;
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .livento-calendar-nav-btn:hover {
+    background-color: #ffffff;
+    color: #0f172a;
+  }
+
+  .livento-calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .livento-calendar-weekday {
+    text-align: center;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #94a3b8;
+  }
+
+  .livento-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+  }
+
+  .livento-calendar-cell {
+    aspect-ratio: 1;
+  }
+
+  .livento-calendar-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid transparent;
+    border-radius: 0.625rem;
+    background: transparent;
+    cursor: default;
+    padding: 0.25rem;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .livento-calendar-day-muted {
+    color: #e2e8f0;
+    pointer-events: none;
+  }
+
+  .livento-calendar-day-dim:not(.livento-calendar-day-selected) {
+    background-color: #fffbeb;
+    border-color: #fef3c7;
+    color: #92400e;
+    cursor: pointer;
+  }
+
+  .livento-calendar-day-dim:not(.livento-calendar-day-selected):hover {
+    background-color: #fef3c7;
+    transform: translateY(-1px);
+  }
+
+  .livento-calendar-day-mer:not(.livento-calendar-day-selected) {
+    background-color: #eef2ff;
+    border-color: #e0e7ff;
+    color: #3730a3;
+    cursor: pointer;
+  }
+
+  .livento-calendar-day-mer:not(.livento-calendar-day-selected):hover {
+    background-color: #e0e7ff;
+    transform: translateY(-1px);
+  }
+
+  .livento-calendar-day-dim.livento-calendar-day-selected {
+    background: #f59e0b;
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+  }
+
+  .livento-calendar-day-mer.livento-calendar-day-selected {
+    background: #6366f1;
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+  }
+
+  .livento-calendar-day-selected .livento-calendar-culte-icon,
+  .livento-calendar-day-selected .livento-calendar-dot {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+
+  .livento-calendar-culte-icon {
+    width: 0.75rem;
+    height: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .livento-calendar-day-dim:not(.livento-calendar-day-selected)
+    .livento-calendar-culte-icon {
+    color: #d97706;
+  }
+
+  .livento-calendar-day-mer:not(.livento-calendar-day-selected)
+    .livento-calendar-culte-icon {
+    color: #4f46e5;
+  }
+
+  .livento-calendar-day-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .livento-calendar-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 9999px;
+    background-color: var(--livento-primary);
+  }
+
+  .livento-culte-report {
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    padding: 1.125rem;
+    align-self: start;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(12, 18, 34, 0.04);
+  }
+
+  @media (min-width: 768px) {
+    .livento-culte-report {
+      width: min(100%, 22rem);
+      max-width: 22rem;
+      flex: 0 0 auto;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .livento-culte-report,
+    .livento-culte-report-empty {
+      width: 100%;
+      max-width: none;
+    }
+  }
+
+  .livento-culte-report-dim {
+    border-top: 3px solid #f59e0b;
+  }
+
+  .livento-culte-report-mer {
+    border-top: 3px solid #6366f1;
+  }
+
+  .livento-culte-report-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    border: 1px dashed #e2e8f0;
+    border-radius: 1rem;
+    background-color: #fafafa;
+    padding: 2rem 1rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .livento-culte-report-empty {
+      width: min(100%, 22rem);
+      max-width: 22rem;
+      flex: 0 0 auto;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .livento-culte-report-empty {
+      width: 100%;
+      max-width: none;
+    }
+  }
+
+  .culte-month-summary {
+    display: none;
+  }
+
+  @media (min-width: 1280px) {
+    .culte-month-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      background: linear-gradient(
+        160deg,
+        rgba(248, 250, 252, 0.95) 0%,
+        rgba(255, 255, 255, 0.85) 100%
+      );
+      padding: 1.25rem;
+      align-self: stretch;
+    }
+  }
+
+  .culte-month-summary-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--livento-text);
+  }
+
+  .culte-month-summary-total {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+  }
+
+  .culte-month-summary-value {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--livento-text);
+  }
+
+  .culte-month-summary-label {
+    font-size: 0.8125rem;
+    color: var(--livento-text-muted);
+  }
+
+  .culte-month-summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .culte-month-summary-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .culte-month-summary-item-dim {
+    background: rgba(254, 243, 199, 0.45);
+    color: #b45309;
+  }
+
+  .culte-month-summary-item-mer {
+    background: rgba(224, 231, 255, 0.55);
+    color: #4338ca;
+  }
+
+  .culte-month-summary-item-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.85;
+  }
+
+  .culte-month-summary-item-value {
+    margin-top: 0.125rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--livento-text);
+  }
+
+  .culte-report-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background-color: #fffbeb;
+    margin-bottom: 0.25rem;
+  }
+
+  .livento-culte-report-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .culte-report-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+    border-radius: 0.75rem;
+  }
+
+  .culte-report-icon-wrap-dim {
+    background-color: #fffbeb;
+    color: #d97706;
+  }
+
+  .culte-report-icon-wrap-mer {
+    background-color: #eef2ff;
+    color: #4f46e5;
+  }
+
+  .culte-count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: 9999px;
+    background-color: #f1f5f9;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  .culte-report-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    margin-top: 1rem;
+    max-height: 16rem;
+    overflow-y: auto;
+    padding-right: 0.125rem;
+  }
+
+  .culte-report-row {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    border-radius: 0.625rem;
+    padding: 0.5rem 0.625rem;
+    transition: background-color 0.12s ease;
+  }
+
+  .culte-report-row:hover {
+    background-color: #f8fafc;
+  }
+
+  .culte-report-avatar {
+    width: 2rem !important;
+    height: 2rem !important;
+    font-size: 0.625rem !important;
+  }
+
+  .culte-report-no-data {
+    margin-top: 1rem;
+    border-radius: 0.625rem;
+    background-color: #f8fafc;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.8125rem;
+    color: #64748b;
+  }
+
+  /* ─── Performance strip (modern) ────────────────────────────────────── */
+  .livento-performance-strip {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-radius: 1rem;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
+    border: 1px solid rgba(226, 232, 240, 0.7);
+    padding: 1.25rem 0.875rem 0.875rem;
+  }
+
+  .livento-performance-item {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .livento-performance-value {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1;
+  }
+
+  .livento-performance-bar {
+    width: 100%;
+    max-width: 1.75rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    transition: height 0.25s ease;
+  }
+
+  .livento-performance-bar-dim {
+    background: #f59e0b;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+  }
+
+  .livento-performance-bar-mer {
+    background: #6366f1;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
+
+  .livento-performance-label {
+    font-size: 0.625rem;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+    color: #94a3b8;
+    white-space: nowrap;
+  }
+
+  /* ─── Activité récente ──────────────────────────────────────────────── */
+  .activity-row {
+    @apply flex items-center justify-between rounded-2xl border border-transparent px-3 py-3 transition-all;
+  }
+
+  .activity-row:hover {
+    @apply border-slate-100 bg-blue-50/40 shadow-sm;
+  }
+
+  .activity-row + .activity-row {
+    margin-top: 0.125rem;
+  }
+
+  /* ─── Navigation pill (legacy) ──────────────────────────────────────── */
+  .livento-nav-pill {
+    @apply rounded-full px-4 py-2 text-sm font-medium transition-all duration-200;
+    color: var(--livento-text-muted);
+  }
+
+  .livento-nav-pill-active {
+    background-color: var(--livento-primary);
+    color: #ffffff;
+    box-shadow: var(--livento-shadow-btn);
+  }
+
+  .livento-nav-item {
+    @apply flex h-10 items-center gap-2.5 rounded-full px-4 text-sm font-medium transition-all duration-200;
+    color: var(--livento-text-muted);
+  }
+
+  .livento-nav-item:hover {
+    @apply bg-slate-100;
+    color: var(--livento-text);
+  }
+
+  .livento-nav-item-active {
+    background-color: var(--livento-primary);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 102, 255, 0.25);
+  }
+
+  .livento-nav-item-active:hover {
+    background-color: var(--livento-primary-hover);
+    color: #ffffff;
+  }
+
+  /* ─── Boutons (complément login / legacy) ───────────────────────────── */
+  .btn-glow {
+    background-color: var(--livento-primary);
+    background-image: none;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 87, 216, 0.25);
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-glow:hover {
+    background-color: var(--livento-primary-hover);
+    background-image: none;
+    box-shadow: 0 4px 12px rgba(0, 87, 216, 0.3);
+  }
+
+  .livento-btn-outline {
+    @apply rounded-xl border bg-white;
+    border-color: var(--livento-border);
+    color: var(--livento-text);
+  }
+
+  .livento-btn-outline:hover {
+    @apply bg-slate-50;
+  }
+
+  .livento-btn-ghost {
+    @apply rounded-full;
+  }
+
+  /* ─── Stat cards — icônes & tendances ───────────────────────────────── */
+  .livento-icon-circle {
+    @apply flex size-10 shrink-0 items-center justify-center rounded-xl;
+    box-shadow: 0 2px 8px rgba(12, 18, 34, 0.06);
+  }
+
+  .livento-icon-amber {
+    background: #fef3c7;
+    @apply text-amber-600;
+  }
+  .livento-icon-indigo {
+    background: #e0e7ff;
+    @apply text-indigo-600;
+  }
+  .livento-icon-blue {
+    background: #dbeafe;
+    @apply text-blue-600;
+  }
+  .livento-icon-emerald {
+    background: #d1fae5;
+    @apply text-emerald-600;
+  }
+  .livento-icon-violet {
+    background: #ede9fe;
+    @apply text-violet-600;
+  }
+  .livento-icon-rose {
+    background: #ffe4e6;
+    @apply text-rose-600;
+  }
+
+  .livento-stat-value {
+    @apply text-[2rem] font-extrabold leading-none tracking-tight;
+    color: var(--livento-text);
+    letter-spacing: -0.04em;
+  }
+
+  .livento-stat-label {
+    @apply text-sm font-medium;
+    color: var(--livento-text-muted);
+  }
+
+  .livento-stat-hint {
+    @apply text-xs;
+    color: var(--livento-text-muted);
+  }
+
+  .trend-pill {
+    @apply mb-0.5 inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-[11px] font-bold;
+  }
+
+  .trend-pill-up {
+    background-color: var(--livento-success-bg);
+    color: var(--livento-success);
+  }
+
+  .trend-pill-down {
+    background-color: var(--livento-danger-bg);
+    color: var(--livento-danger);
+  }
+
+  /* ─── Sélecteur de période ──────────────────────────────────────────── */
+  .livento-period-picker {
+    @apply flex items-center gap-0.5 rounded-full border p-0.5;
+    border-color: var(--livento-border);
+    background: var(--livento-card-solid);
+    box-shadow: 0 1px 3px rgba(12, 18, 34, 0.04);
+  }
+
+  /* ─── Graphiques & barres ───────────────────────────────────────────── */
+  .livento-chart-bar-dim {
+    @apply rounded-t-xl bg-amber-500/90 transition-all duration-300 hover:bg-amber-500;
+  }
+
+  .livento-chart-bar-mer {
+    @apply rounded-t-xl bg-indigo-500/90 transition-all duration-300 hover:bg-indigo-500;
+  }
+
+  .livento-legend-dot {
+    @apply size-2.5 rounded-full;
+  }
+
+  /* ─── Listes & avatars ──────────────────────────────────────────────── */
+  .livento-avatar {
+    @apply flex size-9 items-center justify-center rounded-xl bg-blue-100 text-xs font-bold text-blue-700;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.12);
+  }
+
+  .livento-list-item {
+    @apply flex items-center justify-between py-3.5;
+  }
+
+  .livento-list-divider {
+    @apply divide-y divide-border;
+  }
+
+  .livento-link-card {
+    @apply mt-5 inline-flex w-full items-center justify-center gap-1.5 rounded-xl border py-2.5 text-sm font-semibold transition-all duration-200;
+    border-color: var(--livento-border);
+    background: rgba(248, 250, 252, 0.8);
+    color: var(--livento-text);
+  }
+
+  .livento-link-card:hover {
+    background: var(--livento-card-solid);
+    border-color: rgba(203, 213, 225, 0.9);
+    box-shadow: 0 2px 10px rgba(12, 18, 34, 0.05);
+  }
+
+  /* ─── Formulaires ───────────────────────────────────────────────────── */
+  .livento-input {
+    @apply h-11 rounded-xl border bg-white shadow-sm;
+    border-color: var(--livento-border);
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .livento-input:focus {
+    border-color: var(--livento-primary);
+    @apply ring-2 ring-primary/15 shadow-sm;
+  }
+
+  .livento-label {
+    @apply text-xs font-semibold uppercase tracking-wide;
+    color: var(--livento-text-muted);
+  }
+
+  /* ─── États vides / placeholders ────────────────────────────────────── */
+  .livento-empty {
+    border-radius: var(--livento-radius-card);
+    border: 1px solid var(--livento-border);
+    background-color: var(--livento-card);
+    box-shadow: var(--livento-shadow-card);
+    @apply mx-auto max-w-2xl p-6 text-sm lg:p-8;
+    color: var(--livento-text-muted);
+  }
+
+  /* ─── Sidebar logo ──────────────────────────────────────────────────── */
+  .livento-logo {
+    background: var(--livento-primary);
+    @apply flex size-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white;
+    box-shadow: 0 4px 12px rgba(0, 87, 216, 0.25);
+  }
+
+  .gradient-primary {
+    background: var(--livento-primary);
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #0052b8, #0061d5);
+  }
+
+  /* ─── Login panel ───────────────────────────────────────────────────── */
+  .livento-login-panel {
+    @apply relative hidden overflow-hidden lg:flex lg:flex-col lg:justify-between p-12 text-white;
+    background: linear-gradient(145deg, #0046b0 0%, #0057d8 40%, #1d4ed8 100%);
+  }
+
+  .livento-login-orb {
+    @apply absolute rounded-full blur-3xl;
+    background: rgba(255, 255, 255, 0.15);
+  }
 }

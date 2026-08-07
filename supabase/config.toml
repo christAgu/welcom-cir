@@ -1,0 +1,39 @@
+# Supabase local — https://supabase.com/docs/guides/cli/config
+project_id = "cir-welcom"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 17
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+minimum_password_length = 6
+# Inscription publique ouverte ; profil admin créé automatiquement (trigger DB).
+enable_signup = true
+additional_redirect_urls = [
+  "http://localhost:3000/auth/callback",
+  "http://localhost:3000/auth/callback/**",
+  "http://localhost:3000/auth/confirm",
+  "http://localhost:3000/auth/confirm/**",
+  "http://127.0.0.1:3000/auth/callback",
+  "http://127.0.0.1:3000/auth/callback/**",
+  "http://127.0.0.1:3000/auth/confirm",
+  "http://127.0.0.1:3000/auth/confirm/**",
+]
+
+# true = provider email actif (connexion, invitations, OTP).
+# false désactive TOUT l'email auth — ne pas confondre avec [auth].enable_signup.
+[auth.email]
+enable_signup = true
